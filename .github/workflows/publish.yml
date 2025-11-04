@@ -1,0 +1,89 @@
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        source: [ bring ]
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create output directory
+        run: |
+          mkdir -p output/${{ matrix.source }}
+
+      - name: Copy images if present
+        run: |
+          if [ -d "${{ matrix.source }}/images" ]; then
+            cp -r "${{ matrix.source }}/images" "output/${{ matrix.source }}/"
+          fi
+
+      - name: Check if presentation exists
+        id: check_presentation
+        run: |
+          if [ -f "${{ matrix.source }}/presentation.md" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Warning: '${{ matrix.source }}/presentation.md' not found, skipping."
+          fi
+
+      - name: Marp Build HTML
+        if: steps.check_presentation.outputs.exists == 'true'
+        uses: docker://marpteam/marp-cli:v4.2.3
+        with:
+          args: ${{ matrix.source }}/presentation.md -o output/${{ matrix.source }}/index.html --theme ./css/neobeam-beamer.css --theme-set ./css/neobeam.css --allow-local-files
+        env:
+          MARP_USER: root:root
+
+      - name: Marp Build PDF
+        if: steps.check_presentation.outputs.exists == 'true'
+        uses: docker://marpteam/marp-cli:v4.2.3
+        with:
+          args: ${{ matrix.source }}/presentation.md -o output/${{ matrix.source }}/presentation.pdf --theme ./css/neobeam-beamer.css --theme-set ./css/neobeam.css --allow-local-files
+        env:
+          MARP_USER: root:root
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-${{ matrix.source }}
+          path: output/${{ matrix.source }}
+
+  combine:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: output-*
+          path: artifacts
+          merge-multiple: false
+
+      - name: Combine outputs
+        run: |
+          mkdir -p output
+          for dir in artifacts/output-*; do
+            name=$(basename "$dir" | sed 's/output-//')
+            cp -r "$dir" "output/$name"
+          done
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          force_orphan: true
+          cname: talks.procyk.in
