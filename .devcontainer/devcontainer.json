@@ -1,0 +1,43 @@
+{
+    "name": "Marp",
+    "image": "marpteam/marp-cli:v4.2.3",
+    "features": {
+        "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+            "packages": "chromium"
+        }
+    },
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "markdown.marp.html": true,
+                "markdown.marp.themes": [
+                    "./css/neobeam.css",
+                    "./css/neobeam-beamer.css",
+                    "./css/neobeam-csek.css",
+                    "./css/neobeam-dsek.css",
+                    "./css/neobeam-ecobeam.css",
+                    "./css/neobeam-embracket.css",
+                    "./css/neobeam-lund.css",
+                    "./css/neobeam-neonbeam.css",
+                    "./css/neobeam-oldenbeam.css"
+                ]
+            },
+            "extensions": [
+                "eamodio.gitlens",
+                "streetsidesoftware.code-spell-checker",
+                "yzhang.markdown-all-in-one",
+                "davidanson.vscode-markdownlint",
+                "marp-team.marp-vscode",
+                "bierner.markdown-mermaid",
+                "bierner.github-markdown-preview",
+                "shd101wyy.markdown-preview-enhanced"
+            ]
+        }
+    },
+    "userEnvProbe": "loginInteractiveShell",
+    "forwardPorts": [
+        8000
+    ],
+    "remoteUser": "root"
+}
