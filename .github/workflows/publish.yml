@@ -11,7 +11,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        source: [ bring ]
+        source: [ bring, effective-kmp ]
     steps:
 
       - name: Checkout code
@@ -41,7 +41,7 @@ jobs:
         if: steps.check_presentation.outputs.exists == 'true'
         uses: docker://marpteam/marp-cli:v4.2.3
         with:
-          args: ${{ matrix.source }}/presentation.md -o output/${{ matrix.source }}/index.html --theme ./css/neobeam-beamer.css --theme-set ./css/neobeam.css --allow-local-files
+          args: ${{ matrix.source }}/presentation.md -o output/${{ matrix.source }}/index.html --theme ./css/neobeam-beamer.css --theme-set ./css/neobeam.css --allow-local-files --html
         env:
           MARP_USER: root:root
 
@@ -49,7 +49,7 @@ jobs:
         if: steps.check_presentation.outputs.exists == 'true'
         uses: docker://marpteam/marp-cli:v4.2.3
         with:
-          args: ${{ matrix.source }}/presentation.md -o output/${{ matrix.source }}/presentation.pdf --theme ./css/neobeam-beamer.css --theme-set ./css/neobeam.css --allow-local-files
+          args: ${{ matrix.source }}/presentation.md -o output/${{ matrix.source }}/presentation.pdf --theme ./css/neobeam-beamer.css --theme-set ./css/neobeam.css --allow-local-files --html
         env:
           MARP_USER: root:root
 

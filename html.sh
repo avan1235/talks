@@ -37,6 +37,7 @@ if [[ -f "$src/presentation.md" ]]; then
         --theme ./css/neobeam-beamer.css \
         --theme-set ./css/neobeam.css \
         --allow-local-files \
+        --html \
         --watch
 else
     echo "Error: '$src/presentation.md' not found."

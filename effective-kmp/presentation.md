@@ -57,15 +57,61 @@ footer: '**Maciej Procyk**
 1. play with API
 2. HTTP client and model serialization
 3. text-based UI and shared view model
-4. styled Map component with controls
+4. styled map component with controls
+
+---
+
+<!-- scoped style -->
+<style scoped>
+section {
+    --margin: 0;
+}
+#scrollVideo {
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+section::after {
+    display: none !important;
+}
+</style>
+
+<!-- header: '' -->
+<!-- footer: '' -->
+
+<video id="scrollVideo" muted>
+  <source src="./images/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<script>
+const v = document.getElementById("scrollVideo");
+new IntersectionObserver(function(e) {
+    e.forEach(function(x) {
+        if (!x.isIntersecting) {
+            v.pause();
+            v.currentTime = 0;
+        } else {
+            v.play();
+        }
+    })
+}, {
+    threshold: .5
+}).observe(v);
+function togglePlay() {
+  v.paused ? v.play() : v.pause();
+}
+v.addEventListener("click", togglePlay);
+</script>
 
 ---
 
 <!-- header: 'Summary' -->
 
-* a common, performant UI in shared code
-* model and utils can be shared between clients and server, and different platforms
-* to build UI live, use Compose Hot Reload
+* start with working KMP project, extend it to your needs
+* results:
+  * common, performant UI in shared code
+  * model and utils shared between clients and server, and different target platforms
+* using KMP libraries makes it easy to add features
+* building UI with Compose Hot Reload is fast, and a pleasure
 
 ---
 
@@ -114,7 +160,7 @@ footer: '**Maciej Procyk**
 <div class="center">
 <img src="./images/qr-github-bring.png">
 
-[GitHub Bring](https://github.com/avan1235/bring/)
+[GitHub Bring!](https://github.com/avan1235/bring/)
 </div>
 
 </div>
