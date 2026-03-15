@@ -31,7 +31,7 @@ footer: '**Maciej Procyk**
 
 * build a simple, working app tracking ISS
 * make it work on all major platforms: Android, iOS, JVM and web
-* DIY and KISS
+* DRY and KISS
 * have fun writing the code
 * show how to start with development of KMP apps, and what are the nice tools to use
 
@@ -56,7 +56,7 @@ footer: '**Maciej Procyk**
 
 1. play with API
 2. HTTP client and model serialization
-3. text-based UI and shared View Model
+3. text-based UI and shared view model
 4. styled Map component with controls
 
 ---
