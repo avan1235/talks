@@ -4,7 +4,7 @@ theme: neobeam
 paginate: true
 math: katex
 footer: '**Maciej Procyk**
-         **Getting the most out of shared code in KMP**
+         **Effective Kotlin Multiplatform**
          **JetBrains**'
 ---
 
