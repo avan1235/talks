@@ -48,7 +48,16 @@ footer: '**Maciej Procyk**
 
 <!-- header: '' -->
 
-# Live coding ISS
+# (Live) Coding ISS
+
+---
+
+<!-- header: 'Plan' -->
+
+1. play with API
+2. HTTP client and model serialization
+3. text-based UI and shared View Model
+4. styled Map component with controls
 
 ---
 
